@@ -14,13 +14,22 @@ def index():
 #     return {"message":"All blogs"}
 
 
-@app.get("/blog/all", tags=['blog'])
+@app.get(
+    "/blog/all", 
+    tags=['blog'],
+    summary='Retrieve all blogs',
+    description='This api call simulates fetching all blogs.',
+    response_description='The list of available blogs'
+    )
 def get_all_blogs(page = 1, page_size = 10, tags = ['blog', 'comment']):
     return {"message":f"All {page_size} blogs on page {page}"}
 
 
 @app.get('/blog/{id}', status_code=status.HTTP_200_OK, tags=['blog'])
 def get_blog(id: int, response: Response):
+    """
+    test
+    """
     if id > 5:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {"error":"Not found"}
@@ -32,6 +41,14 @@ def get_blog(id: int, response: Response):
 
 @app.get('/blog/{id}/comments/{comment_id}', tags = ['blog', 'comment'])
 def get_comment(id: int, comment_id: int, valid: bool = True, username : Optional[str] = None):
+    """
+    Simulates retrieving a comment of a blog
+
+    - **id** mandatory path parameter
+    - **comment_id** mandatory path parameter
+    - **valid** optional query parameter
+    - **username** optional query parameter
+    """
     return {"message":f"blog_id {id}, comment_id {comment_id}, valid {valid}, username {username}"}
 
 class BlogType(str, Enum):
